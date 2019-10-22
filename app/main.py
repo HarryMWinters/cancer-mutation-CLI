@@ -1,9 +1,12 @@
 from lib.parser import parse
+from lib.entrez_gene import toID
 
 
 def main():
-    geneIDs = parse()
-    print(geneIDs)
+    geneSymbols = parse()
+    geneIDs = toID(geneSymbols)
+    for symbol, gID in zip(geneSymbols, geneIDs):
+        print(f"{symbol}: {gID}")
     # Map symbols to entrez gene ID's
     # Retrieve (and cache?) data
     # Analyze (and cache?) data
