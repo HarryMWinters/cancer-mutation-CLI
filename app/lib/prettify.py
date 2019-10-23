@@ -4,6 +4,7 @@ import json
 def formatAndPrint(results, toJSON=False):
     if toJSON:
         print(json.dumps(results))
+        return
     s = ""
     totalCount = results["geneset"]["totalCount"]
     for symbol, stats in results.items():
