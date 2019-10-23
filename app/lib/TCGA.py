@@ -2,7 +2,8 @@ import requests
 import json
 
 
-def retrieve(geneID):
+def retrieve(symbolMap):
+
     study = "gbm_tcga_gistic"
     url = f"http://www.cbioportal.org/api/molecular-profiles/{study}/discrete-copy-number/fetch"
     querystring = {
@@ -10,7 +11,7 @@ def retrieve(geneID):
         "projection": "SUMMARY"
     }
     payload = {
-        "entrezGeneIds": [geneID],
+        "entrezGeneIds": list(symbolMap.values()),
         "sampleListId": "gbm_tcga_cnaseq"
     }
     headers = {
