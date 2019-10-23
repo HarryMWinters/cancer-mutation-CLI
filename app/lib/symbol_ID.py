@@ -1,4 +1,5 @@
 import csv
+import os
 
 
 def toID(symbolList):
@@ -13,11 +14,12 @@ def toID(symbolList):
          A list of entrez gene IDs.
     Raises:
         LookupError if element of symbolList cannot be found in look up table.
-
     """
     IDList = []
     IDMap = {}
-    with open("./data/gene_id_symbol_map.csv") as csvFile:
+    dirname = os.path.dirname(__file__)
+    filename = os.path.join(dirname, "../data/gene_id_symbol_map.csv")
+    with open(filename) as csvFile:
         for geneID, symbol in csv.reader(csvFile):
             IDMap[symbol] = geneID
     for symbol in symbolList:
