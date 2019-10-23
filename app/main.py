@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 
 from lib.parser import parse
-from lib.entrez_gene import toID
-from lib.TCGA import retrieve
-from lib.analyzer import summarize
+from lib.symbol_ID import toID
+from lib.data_retrieval import retrieve
+from lib.data_analysis import summarize
 from lib.prettify import formatAndPrint
 
 
