@@ -2,24 +2,29 @@ def summarize(samples, symbolMap):
     if type(samples) != list:
         raise IOError("Unable to retrieve data from web.")
     genes = symbolMap.values()
+    reverseSymbolMap = {v: k for k, v in symbolMap.items()}
     geneCount = {
-        "total": 0,
         "NA": 0,
         "singleCopy": 0,
         "noCopy": 0,
         "multiCopy": 0,
         "noChange": 0,
     }
-    countDict = {int(gene): geneCount.copy() for gene in genes}
-    print(f"countdict = {countDict}")
-    countDict["Geneset"] = {"mutated": 0}
-    countDict["totalCount"] = len(samples) / len(genes)
+    countDict = {gene: geneCount.copy() for gene in genes}
+    countDict["geneset"] = {"mutated": 0}
+    countDict["geneset"]["totalCount"] = len(samples) / len(genes)
 
+    # Check each sample for mutations in given gene list
     i = 0
     while i < len(samples):
         sample = samples[i: i + len(genes)]
         _checkSample(countDict, sample)
         i += len(genes)
+
+    # Swap keys back to gene symbols
+    for k in reverseSymbolMap.keys():
+        countDict[reverseSymbolMap[k]] = countDict[k]
+        del countDict[k]
 
     return countDict
 
@@ -27,7 +32,7 @@ def summarize(samples, symbolMap):
 def _checkSample(countDict, sample):
     isMutated = False
     for gene in sample:
-        geneID = gene["entrezGeneId"]
+        geneID = str(gene["entrezGeneId"])
         alteration = gene["alteration"]
         # Data not available
         if alteration == "NA":
@@ -51,6 +56,6 @@ def _checkSample(countDict, sample):
                 Value: {alteration}. Sample key: {gene['uniqueSampleKey']}.")
 
     if isMutated:
-        countDict["Geneset"]["mutated"] += 1
+        countDict["geneset"]["mutated"] += 1
 
     return
