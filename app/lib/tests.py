@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import unittest
 from unittest.mock import MagicMock
 from unittest.mock import patch
@@ -15,8 +17,57 @@ ID = ["7157"]
 MULTI_GENE_ID_MAP = {gene: id for gene, id in zip(GENE_LIST, ID_LIST)}
 SINGLE_GENE_ID_MAP = {"TP53": "7157"}
 
-SINGLE_GENE_SAMPLE = {}
-MULTI_GENE_SAMPLE = {}
+SINGLE_GENE_SAMPLE = [
+    {
+        "uniqueSampleKey": "VENHQS0wMi0wMDAzLTAxOm51bGw",
+        "uniquePatientKey": "bnVsbDpudWxs",
+        "molecularProfileId": "gbm_tcga_gistic",
+        "sampleId": "TCGA-02-0003-01",
+        "entrezGeneId": 7157,
+        "alteration": 0
+    },
+    {
+        "uniqueSampleKey": "VENHQS0wMi0wMDAzLTAxOm51bGw",
+        "uniquePatientKey": "bnVsbDpudWxs",
+        "molecularProfileId": "gbm_tcga_gistic",
+        "sampleId": "TCGA-02-0003-01",
+        "entrezGeneId": 7157,
+        "alteration": -2
+    },
+    {
+        "uniqueSampleKey": "VENHQS0wMi0wMDMzLTAxOm51bGw",
+        "uniquePatientKey": "bnVsbDpudWxs",
+        "molecularProfileId": "gbm_tcga_gistic",
+        "sampleId": "TCGA-02-0033-01",
+        "entrezGeneId": 7157,
+        "alteration": +2
+    },
+    {
+        "uniqueSampleKey": "VENHQS0wMi0wMDMzLTAxOm51bGw",
+        "uniquePatientKey": "bnVsbDpudWxs",
+        "molecularProfileId": "gbm_tcga_gistic",
+        "sampleId": "TCGA-02-0033-01",
+        "entrezGeneId": 7157,
+        "alteration": "NA",
+    },
+    {
+        "uniqueSampleKey": "VENHQS0wMi0wMDMzLTAxOm51bGw",
+        "uniquePatientKey": "bnVsbDpudWxs",
+        "molecularProfileId": "gbm_tcga_gistic",
+        "sampleId": "TCGA-02-0033-01",
+        "entrezGeneId": 7157,
+        "alteration": 1
+    },
+    {
+        "uniqueSampleKey": "VENHQS0wMi0wMDMzLTAxOm51bGw",
+        "uniquePatientKey": "bnVsbDpudWxs",
+        "molecularProfileId": "gbm_tcga_gistic",
+        "sampleId": "TCGA-02-0033-01",
+        "entrezGeneId": 7157,
+        "alteration": +1
+    },
+]
+MULTI_GENE_SAMPLE = []
 
 
 class CancerMutationFinderCLI(unittest.TestCase):
@@ -63,13 +114,29 @@ class CancerMutationFinderCLI(unittest.TestCase):
         )
 
     def test_summarize_with_single_value(self):
+        # TODO Test values mutation type count for each type individually.
         result = summarize(SINGLE_GENE_SAMPLE, SINGLE_GENE_ID_MAP)
+        expected = {
+            'geneset': {
+                'mutated': 4.0,
+                'totalCount': 6.0
+            },
+            'TP53': {
+                'NA': 1,
+                'singleCopy': 2,
+                'noCopy': 1,
+                'multiCopy': 1,
+                'noChange': 1
+            }
+        }
+        self.assertEqual(expected, result
+                         )
 
     def test_summarize_with_multi_value(self):
         result = summarize(MULTI_GENE_SAMPLE, MULTI_GENE_ID_MAP)
 
-    def test_summarize_with_NO_value(self, mock_requests):
-        result = summarize([], {"_": []})
+# def test_summarize_with_NO_value(self, mock_requests):
+#     result = summarize([], {"_": []})
 
 
 if __name__ == '__main__':

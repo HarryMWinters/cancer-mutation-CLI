@@ -1,6 +1,11 @@
 def summarize(samples, symbolMap):
+    """
+
+    """
     if type(samples) != list:
-        raise IOError("Unable to retrieve data from web.")
+        raise IOError(
+            f"Expected list of samples received {samples}." +
+            "This is usually caused by a failure to retrieve data from the web.")
     genes = symbolMap.values()
     reverseSymbolMap = {v: k for k, v in symbolMap.items()}
     geneCount = {
