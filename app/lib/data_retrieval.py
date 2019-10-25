@@ -9,13 +9,13 @@ def retrieve(symbolMap, study="gbm_tcga_gistic"):
     the mutation data associated with them in the study.
 
     Args:
-        symbolList: A map of string Gene Symbol: string Gene Entrez ID.
+        symbolMap: A map of string Gene Symbol: string Gene Entrez ID.
         study: A string of the study ID. 
     Returns:
         A list of dictionaries where each dictionary is a gene in the study.
     Raises:
         Standard http errors if there is a problem with the request.
-     """
+    """
     url = f"http://www.cbioportal.org/api/molecular-profiles/{study}/discrete-copy-number/fetch"
     querystring = {
         "discreteCopyNumberEventType": "ALL",

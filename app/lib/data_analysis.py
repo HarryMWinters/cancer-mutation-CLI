@@ -1,8 +1,17 @@
 def summarize(samples, symbolMap):
     """
+    summarize a list of mutations and a gene sybol: id dictionary and 
+    counts the number of times each gene has a particular type of mutation.
 
+    Args:
+        symbolMap: A map of string Gene Symbol: string Gene Entrez ID.
+        samples: A list of dictionaries where each dictionary is 
+            a gene in the study.
+    Returns:
+        A dictionary with the counts of each mutation type per gene as well as the 
+        fraction of samples which have a mutation in ANY of the listed genes.
     """
-    if type(samples) != list:
+    if type(samples) != list or samples == []:
         raise IOError(
             f"Expected list of samples received {samples}." +
             "This is usually caused by a failure to retrieve data from the web.")
@@ -35,6 +44,7 @@ def summarize(samples, symbolMap):
 
 
 def _checkSample(countDict, sample):
+    """ Helper function which maps each samples data to an accumulator"""
     isMutated = False
     for gene in sample:
         geneID = str(gene["entrezGeneId"])
