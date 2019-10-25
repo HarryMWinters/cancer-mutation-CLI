@@ -114,3 +114,4 @@ $ ./main.py TP53 MDM2 MDM4 XPA --toJSON | jq
 - Dockerizing the whole app while definitely overkill would solve shebang line issues and
   negate the need to install requirements.txt.
 - If a gene symbol isn't found in `app/data/gene_id_symbol_map.csv` the app should look for it online.
+- Gene results should be cached. (I.E. `app/data/<study_id>/<gene_id>`)
