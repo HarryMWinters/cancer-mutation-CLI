@@ -4,12 +4,19 @@ from unittest.mock import patch
 
 from symbol_ID import toID
 from data_retrieval import retrieve
+from data_analysis import summarize
 
 GENE_LIST = ["TP53", "ADIPOQ", "TTR"]
 GENE = ["TP53"]
 
 ID_LIST = ["7157", "9370", "7276"]
 ID = ["7157"]
+
+MULTI_GENE_ID_MAP = {gene: id for gene, id in zip(GENE_LIST, ID_LIST)}
+SINGLE_GENE_ID_MAP = {"TP53": "7157"}
+
+SINGLE_GENE_SAMPLE = {}
+MULTI_GENE_SAMPLE = {}
 
 
 class CancerMutationFinderCLI(unittest.TestCase):
@@ -54,6 +61,15 @@ class CancerMutationFinderCLI(unittest.TestCase):
             mock_requests.mock_calls[0][2]["json"]["entrezGeneIds"][0],
             []
         )
+
+    def test_summarize_with_single_value(self):
+        result = summarize(SINGLE_GENE_SAMPLE, SINGLE_GENE_ID_MAP)
+
+    def test_summarize_with_multi_value(self):
+        result = summarize(MULTI_GENE_SAMPLE, MULTI_GENE_ID_MAP)
+
+    def test_summarize_with_NO_value(self, mock_requests):
+        result = summarize([], {"_": []})
 
 
 if __name__ == '__main__':
