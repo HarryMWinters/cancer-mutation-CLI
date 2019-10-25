@@ -18,7 +18,7 @@ def formatAndPrint(results, toJSON=False):
             )
 
     if len(results) > 2:
-        # Print aggregate stats more than one gene in results.
+        # Print aggregate stats if more than one gene in results.
         s += "The gene set is altered in {:.2%} of all cases.".format(
             results["geneset"]["mutated"] / totalCount
         )

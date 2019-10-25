@@ -28,7 +28,8 @@ def summarize(samples, symbolMap):
     countDict["geneset"] = {"mutated": 0}
     countDict["geneset"]["totalCount"] = len(samples) / len(genes)
 
-    # Check each sample for mutations in given gene list
+    # Grouping genes by sample here so we can keep track of how often
+    # any gene in the provided gene set is mutated.
     i = 0
     while i < len(samples):
         sample = samples[i: i + len(genes)]
@@ -44,7 +45,7 @@ def summarize(samples, symbolMap):
 
 
 def _checkSample(countDict, sample):
-    """ Helper function which maps each samples data to an accumulator"""
+    """ Helper function which maps each sample's data to an accumulator countDict"""
     isMutated = False
     for gene in sample:
         geneID = str(gene["entrezGeneId"])
